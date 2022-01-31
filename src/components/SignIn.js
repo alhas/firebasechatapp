@@ -10,7 +10,6 @@ function SignIn() {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
             .then((re) => {
-
                 console.log(re);
             }).catch((err) => {
 
