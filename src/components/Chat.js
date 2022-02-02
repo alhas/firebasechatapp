@@ -6,36 +6,31 @@ import { collection, orderBy, limit, onSnapshot, getDocs, query, doc } from 'fir
 function Chat() {
 
     const [messages, setMessages] = useState([])
-
-    
+  
     useEffect(() => {
-        
-        onSnapshot((collection(db,'messages')), (querySnapshot) => {
+
+        onSnapshot((collection(db, 'messages')), (querySnapshot) => {
             setMessages(querySnapshot.docs.map(doc => ({
 
-                    id: doc.id,
-                    data: doc.data()
+                id: doc.id,
+                data: doc.data()
             })))
-        
+
         })
     }, [])
 
 
 
-    /* useEffect(() => {
-        db.collection('messages').orderBy('createdAt').limit(50).onSnapshot(snapshot => {
-            setMessages(snapshot.docs.map(doc => doc.data()))
-        })
-    }, []) */
-
     return (
 
         <div>
             <SignOut />
-            {console.log(messages)}
-            {messages.map(({id,text}) => (
+            {console.log(messages)} 
+            
+            {messages.map(({ id, data }) => (
                 <div key={id}>
-                    <p>{JSON.stringify(messages)}</p>
+                    <p>{data.text}</p>
+                    <p>{data.text}</p>
                 </div>
             ))}
 
