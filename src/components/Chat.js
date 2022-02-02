@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import SignOut from './SignOut';
-import { collection, orderBy, limit, onSnapshot, getDocs, query, doc } from 'firebase/firestore'
+import { collection, orderBy, limit, onSnapshot, getDocs, query } from 'firebase/firestore'
 import SendMessage from './SendMessage';
 
 function Chat() {
@@ -10,13 +10,18 @@ function Chat() {
 
     useEffect(() => {
 
-        onSnapshot((collection(db, 'messages')), orderBy('createdAt'), (querySnapshot) => {
+        const collectionReg = collection(db, 'messages');
+        const q = query(collectionReg, orderBy('createdAt', 'desc'),limit(50))
+
+        const unsub = onSnapshot(q, (querySnapshot) => {
             setMessages(querySnapshot.docs.map(doc => ({
+
                 id: doc.id,
                 data: doc.data()
             })))
 
         })
+        return unsub;
     }, [])
 
 
